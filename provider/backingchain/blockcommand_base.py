@@ -82,3 +82,12 @@ class BlockCommand(object):
                                      debug=True)
             self.snap_path_list.append(self.tmp_dir + 'snap%d' % i)
             self.snap_name_list.append('snap%d' % i)
+
+    def get_first_disk_source(self):
+        """
+        Get disk source of first device
+        :return: first disk of first device.
+        """
+        first_device = self.vm.get_first_disk_devices()
+        first_disk_src = first_device['source']
+        return first_disk_src

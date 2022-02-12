@@ -85,6 +85,22 @@ class Checkfunction(object):
         LOG.info('Backing chain check PASS.')
         return True
 
+    def check_blockjob_raw_result(self, result, no_output=False):
+        """
+        Check blockjob command with --raw options result
+
+        :params result: result after execute blockjob --raw
+        :params no_output: check if need return empty.
+        """
+        if no_output:
+            if result.stdout_text.strip():
+                self.test.fail('The blockjob with raw option'
+                               ' should return empty')
+        else:
+            output = result.stdout_text.strip().split('=')
+            cur = re.findall(r'\d+', output[3])[0]
+            return int(cur)
+
     def check_backingchain(self, img_list):
         """
         Check backing chain info through qemu-img info
