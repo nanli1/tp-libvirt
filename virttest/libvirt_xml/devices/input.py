@@ -34,6 +34,7 @@ class Input(base.TypedDeviceBase):
                                tag_name='source', attribute='evdev')
         accessors.XMLAttribute('driver_packed', self, parent_xpath='/',
                                tag_name='driver', attribute='packed')
+
     # For convenience
     Address = librarian.get('address')
 
