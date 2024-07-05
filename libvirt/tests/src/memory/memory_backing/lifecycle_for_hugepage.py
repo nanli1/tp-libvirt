@@ -157,6 +157,7 @@ def run_test(vm, params, test):
     libvirt.check_result(ret, expected_fails=start_error)
     if start_error:
         return
+    vm.wait_for_login().close()
     vmxml = vm_xml.VMXML.new_from_dumpxml(vm.name)
     test.log.debug("After start vm, get vmxml is :%s", vmxml)
 
@@ -187,6 +188,8 @@ def run_test(vm, params, test):
 
     if os.path.exists(save_file):
         os.remove(save_file)
+    if vm.state() != 'running':
+        test.fail(f'VM should be running after login, not {vm.state()}')
     virsh.save(vm.name, save_file, **VIRSH_ARGS)
     virsh.restore(save_file, **VIRSH_ARGS)
     vm.wait_for_login().close()
